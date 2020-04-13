@@ -3,10 +3,9 @@ body {
 }
 
 #wrapper {
-    width: 960px;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 5%;
 }
 
 #articles {

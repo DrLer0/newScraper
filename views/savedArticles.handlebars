@@ -8,16 +8,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/">Home </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/saved">Saved Articles</a>
+        <a class="nav-link" href="/saved">Saved Articles <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a href="/scrape" id="scrapeArticles" class="btn btn-info btn-sm m-1">Refresh Aricles</a>
-      </li>
-      <li class="nav-item">
-        <div id="clearBtn" class="btn btn-info btn-sm m-1">Clear Articles</div>
+       <div id="clearBtn" class="btn btn-info btn-sm m-1">Clear Articles</div>
       </li>
     </ul>
   </div>
@@ -26,13 +23,13 @@
     <h1 class="display-4">NewScraper</h1>
     <p class="lead">Get new news from CNN!</p>
   </div>
-  <div class="card-columns">
+  <div class="card-deck">
     {{#each article}}
-    <div data-id="{{this._id}}" class="card">
+    <div class="card">
       <div class="card-body">
         <h5 class="card-title">{{this.title}}</h5>
         <a href="{{this.link}}">Link</a>
-        <div id="saveArticle" data-id="{{this._id}}" class="btn btn-primary btn-sm">Save Article</div>
+        <div id="{{this.id}}" class="btn btn-primary btn-sm">See Notes</div>
       </div>
     </div>
     {{/each}}

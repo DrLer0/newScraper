@@ -7,7 +7,7 @@ var router = express.Router();
 var db = require("../models");
 
 router.get("/", function(req, res) {
-  db.Article.find({}, null, { lean: true })
+  db.Article.find({ "saved": false }, null, { lean: true })
     .then(function(dbArticle) {
       var hbsObject = {
         article: dbArticle
@@ -18,6 +18,30 @@ router.get("/", function(req, res) {
       res.json(err);
     });
 });
+
+router.get("/saved", function(req, res) {
+  db.Article.find({ "saved": true }, null, { lean: true })
+    .then(function(dbArticle) {
+      var hbsObject = {
+        article: dbArticle
+      };
+      res.render("savedArticles", hbsObject);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+})
+
+router.get("/clear", function(req, res) {
+  db.Article.updateMany({}, { "saved": false }, { lean: true })
+    .then(function(dbArticle) {
+      console.log(dbArticle);
+      location.reload();
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+})
 
 // A GET route for scraping the echoJS website
 router.get("/scrape", function(req, res) {
@@ -32,10 +56,9 @@ router.get("/scrape", function(req, res) {
       // Save an empty result object
       var result = {};
 
-
       // // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this).text();
-      let tempURL = $(this).parent("a").attr("href")
+      let tempURL = $(this).parent("a").attr("href");
       result.link = "https://www.cnn.com" + tempURL;
 
       // Create a new Article using the `result` object built from scraping
@@ -49,9 +72,7 @@ router.get("/scrape", function(req, res) {
           console.log(err);
         });
     });
-    // Send a message to the client
-    res.send("Scrape Complete");
-
+    res.redirect("/");
   });
 });
 
@@ -86,7 +107,21 @@ router.get("/articles/:id", function(req, res) {
 });
 
 // Route for saving/updating an Article's associated Note
-router.post("/articles/:id", function(req, res) {
+router.post("/article/:id", function(req, res) {
+  // Create a new note and pass the req.body to the entry
+  db.Article.findOneAndUpdate({ _id: req.params.id }, { "saved": true }, { new: true })
+    .then(function(dbArticle) {
+      // If we were able to successfully find an Article with the given id, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
+
+// Route for saving/updating an Article's associated Note
+router.post("/notes/:id", function(req, res) {
   // Create a new note and pass the req.body to the entry
   db.Note.create(req.body)
     .then(function(dbNote) {
