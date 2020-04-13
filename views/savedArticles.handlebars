@@ -20,8 +20,10 @@
   </div>
 </nav>
   <div class="jumbotron">
+       <div class="bg-light">
     <h1 class="display-4">NewScraper</h1>
     <p class="lead">Get new news from CNN!</p>
+    </div>
   </div>
   <div class="card-deck">
     {{#each article}}
@@ -42,11 +44,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                {{!-- <p>tst</p> --}}
-                {{#each this.note}}
+                {{!--PSUEDO-CODE:
+                1. Get each note that's referenced in Article
+                2. Display each note in the modal-body
+                3. Use the X button to delete specific note --}}
+                {{!-- {{#each this.note}}
                     <p>{{this.body}}</p>
                     <div data-id="{{this.id}}" class="btn btn-danger btn-sm seeNoteBtn">X</div>
-                {{/each}}
+                {{/each}} --}}
             </div>
             <div class="modal-footer">
                 <textarea id='bodyinput' name='body'></textarea>
