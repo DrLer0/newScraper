@@ -93,12 +93,19 @@ router.get("/articles", function(req, res) {
 // Route for grabbing a specific Article by id, populate it with it's note
 router.get("/articles/:id", function(req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+
   db.Article.findOne({ _id: req.params.id }, null, { lean: true })
     // ..and populate all of the notes associated with it
     .populate("note")
     .then(function(dbArticle) {
       // If we were able to successfully find an Article with the given id, send it back to the client
-      res.json(dbArticle);
+      var hbsObject = {
+        article: dbArticle
+      };
+      console.log("==========");
+      console.log(hbsObject);
+      console.log("==========");
+      res.render("savedArticles", hbsObject);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
@@ -106,7 +113,6 @@ router.get("/articles/:id", function(req, res) {
     });
 });
 
-// Route for saving/updating an Article's associated Note
 router.post("/article/:id", function(req, res) {
   // Create a new note and pass the req.body to the entry
   db.Article.findOneAndUpdate({ _id: req.params.id }, { "saved": true }, { new: true })
@@ -132,6 +138,7 @@ router.post("/notes/:id", function(req, res) {
     })
     .then(function(dbArticle) {
       // If we were able to successfully update an Article, send it back to the client
+      console.log(dbArticle);
       res.json(dbArticle);
     })
     .catch(function(err) {
