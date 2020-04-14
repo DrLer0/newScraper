@@ -33,14 +33,12 @@ router.get("/saved", function(req, res) {
 })
 
 router.get("/clear", function(req, res) {
-  db.Article.updateMany({}, { "saved": false }, { lean: true })
-    .then(function(dbArticle) {
-      console.log(dbArticle);
-      location.reload();
-    })
-    .catch(function(err) {
-      res.json(err);
-    });
+  mongooseconnection.connection.db.dropCollection("articles", function(
+    err,
+    result
+  ) {
+    console.log("Collection droped");
+  });
 })
 
 // A GET route for scraping the echoJS website

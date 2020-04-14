@@ -1,14 +1,6 @@
 $(document).on("click", "#clearBtn", function() {
-  $.ajax({
-      method: "GET",
-      url: "/clear"
-    })
-    // With that done
-    .then(function(data) {
-      // Log the response
-      console.log(data);
-      location.reload();
-    });
+  $(".card-columns").empty();
+  $(".card-deck").empty();
 });
 
 $(document).on("click", "#saveArticle", function() {
