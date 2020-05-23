@@ -7,3 +7,6 @@ View new news from CNN.com! Save articles to read later and add notes to it!
 * Click the **"See Notes"** to view the notes of the saved article.
 * Click the **"Link"** to view the article on CNN.com.
 * **"Clear Articles"** to clear the screen of the articles.
+
+## Technolgies Used:
+Node.js, npm, express, handlebars, mongoose, morgan, cheerio, axios, MongoDB
